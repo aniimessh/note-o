@@ -19,7 +19,13 @@ const AuthScreen = () => {
           <Text style={styles.text}>manage everything at one place</Text>
         </View>
         <View>
-          <AuthButton />
+          <View
+            style={{
+              padding: 10,
+            }}
+          >
+            <AuthButton />
+          </View>
           {/* Seperator */}
           <Seperator />
 

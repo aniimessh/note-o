@@ -3,11 +3,7 @@ import React from "react";
 
 const AuthButton = () => {
   return (
-    <View
-      style={{
-        padding: 10,
-      }}
-    >
+    <View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.authButton}>
           <View style={styles.buttonTitle}>

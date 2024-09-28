@@ -90,6 +90,7 @@ export default CreateAccountScreen;
 const styles = StyleSheet.create({
   safeArea: {
     height: "100%",
+    backgroundColor: "#fff",
   },
   container: {
     flex: 1,
