@@ -10,14 +10,17 @@ import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Seperator from "../components/common/Seperator";
 import AuthButton from "../components/buttons/AuthButton";
+import { useNavigation } from "@react-navigation/native";
+import { router } from "expo-router";
 
 const CreateAccountScreen = () => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
-  const [otpSent, setOtpSent] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
-  // Email validation regex
-  const isValidEmail = (email: string) => {
+  const navigation = useNavigation(); // Initialize navigation
+
+  const isValidEmail = (email: string): boolean => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   };
@@ -39,46 +42,43 @@ const CreateAccountScreen = () => {
             onBlur={() => setIsFocused(false)}
             keyboardType="email-address"
             autoFocus
-            editable={!otpSent}
             onChangeText={(text) => setEmail(text)}
           />
-          {otpSent && (
-            <TextInput
-              placeholder="Password"
-              style={[
-                styles.textInput,
-                { borderColor: isFocused ? "#4E2FFF" : "#000" },
-                styles.passwordText,
-              ]}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              keyboardType="default"
-              secureTextEntry={true}
-              editable={otpSent}
-            />
-          )}
+          <TextInput
+            placeholder="Password"
+            style={[
+              styles.textInput,
+              { borderColor: isFocused ? "#4E2FFF" : "#000" },
+            ]}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            secureTextEntry={true}
+            onChangeText={(text) => setPassword(text)}
+          />
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={[
               styles.continueButton,
-              { backgroundColor: isValidEmail(email) ? "#4E2FFF" : "#ccc" }, // Change color based on validity
+              {
+                backgroundColor:
+                  isValidEmail(email) && password ? "#4E2FFF" : "#ccc",
+              },
             ]}
             onPress={() => {
-              if (isValidEmail(email)) {
-                setOtpSent(true);
+              if (isValidEmail(email) && password) {
+                // Navigate to Getting Started page
+                router.push("/getting-started");
               }
             }}
-            disabled={!isValidEmail(email)} // Disable button if email is invalid
+            disabled={!isValidEmail(email) || !password} // Disable button if email or password is invalid
           >
             <Text style={styles.buttonText}>Continue</Text>
           </TouchableOpacity>
-          {!otpSent && (
-            <View style={styles.separatorContainer}>
-              <Seperator />
-            </View>
-          )}
-          {!otpSent && <AuthButton />}
+          <View style={styles.separatorContainer}>
+            <Seperator />
+          </View>
+          <AuthButton />
         </View>
       </View>
     </SafeAreaView>
@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 10,
     fontFamily: "outfitLight",
+    marginBottom: 10, // Added spacing between inputs
   },
   buttonContainer: {
     paddingHorizontal: 10,
@@ -134,8 +135,5 @@ const styles = StyleSheet.create({
   },
   separatorContainer: {
     marginVertical: 20,
-  },
-  passwordText: {
-    marginTop: 10,
   },
 });

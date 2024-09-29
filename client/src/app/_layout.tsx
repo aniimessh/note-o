@@ -14,6 +14,7 @@ const RootLayout = () => {
     outfitSemibold: require("../../assets/fonts/Outfit-SemiBold.ttf"),
     outfitMedium: require("../../assets/fonts/Outfit-Medium.ttf"),
     outfitLight: require("../../assets/fonts/Outfit-Light.ttf"),
+    outfitBold: require("../../assets/fonts/Outfit-Bold.ttf"),
   });
 
   // If the fonts are not loaded, show the loading screen
@@ -31,6 +32,7 @@ const RootLayout = () => {
     >
       <Stack.Screen name="index" />
       <Stack.Screen name="auth" />
+      <Stack.Screen name="getting-started" />
     </Stack>
   );
 };
